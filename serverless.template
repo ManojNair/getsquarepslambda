@@ -1,0 +1,32 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Description": "An AWS Serverless Application.",
+  "Resources": {
+    "Get": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "LetsSquare::LetsSquare.Bootstrap::ExecuteFunction",
+        "Runtime": "dotnetcore3.1",
+        "CodeUri": "./package/code.zip",
+        "MemorySize": 256,
+        "Environment": {
+          "Variables": {
+            "AWS_POWERSHELL_FUNCTION_HANDLER": "Get-Square"
+          }
+        }
+        "Timeout": 30,
+        "Role": "arn:aws:iam::998516739712:role/LambdaAdminRole",
+        "Events": {
+          "RootGet": {
+            "Type": "HttpApi",
+            "Properties": {
+              "Path": "/Message",
+              "Method": "POST"
+            }
+          }
+        }
+      }
+    }
+  }
+}
